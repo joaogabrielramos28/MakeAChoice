@@ -1,14 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import {
-  Box,
-  Button,
-  Factory,
-  IconButton,
-  Pressable,
-  Text,
-  View,
-  VStack,
-} from "native-base";
+import { Box, IconButton, Pressable, Text, VStack } from "native-base";
 import { ArrowLeft } from "phosphor-react-native";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
@@ -19,6 +10,7 @@ type options = "first" | "second" | null;
 export const PreviewEvents = () => {
   const [optionSelected, setOptionSelected] = useState<options>(null);
   const [finalResponse, setFinalResponse] = useState<options>(null);
+
   const { goBack } = useNavigation();
 
   const onFinalResponse = () => {
@@ -137,83 +129,178 @@ export const PreviewEvents = () => {
         ) : (
           <>
             {finalResponse === "first" ? (
-              <FlipCard
-                style={(styles.face, styles.back, styles.flipCard)}
-                useNativeDriver={true}
-                flip={finalResponse === "first"}
-                clickable={false}
-                alignHeight={true}
-                alignWidth={true}
-              >
-                <Pressable
-                  onPress={() => setOptionSelected("first")}
-                  borderColor={optionSelected === "first" ? "#FF8E77" : "white"}
-                  borderWidth={2}
-                  shadow={2}
-                  width={"100%"}
-                  bg={"white"}
-                  borderRadius={4}
-                  p={8}
-                  alignItems={"center"}
+              <>
+                <FlipCard
+                  style={(styles.face, styles.back, styles.flipCard)}
+                  useNativeDriver={true}
+                  flip={finalResponse === "first"}
+                  clickable={false}
+                  alignHeight={true}
+                  alignWidth={true}
                 >
-                  <Text color={"#4F4F4F"} fontSize={"md"}>
-                    Clique para selecionar
-                  </Text>
-                </Pressable>
+                  <Pressable
+                    onPress={() => setOptionSelected("first")}
+                    borderColor={
+                      optionSelected === "first" ? "#FF8E77" : "white"
+                    }
+                    borderWidth={2}
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} fontSize={"md"}>
+                      Clique para selecionar
+                    </Text>
+                  </Pressable>
 
-                <Box
-                  shadow={2}
-                  width={"100%"}
-                  bg={"white"}
-                  borderRadius={4}
-                  p={8}
-                  alignItems={"center"}
-                >
-                  <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                    Jantar fora
-                  </Text>
-                </Box>
-              </FlipCard>
-            ) : (
-              <FlipCard
-                style={(styles.face, styles.back, styles.flipCard)}
-                flip={finalResponse === "second"}
-                clickable={false}
-                alignHeight={true}
-                alignWidth={true}
-              >
-                <Pressable
-                  onPress={() => setOptionSelected("second")}
-                  borderColor={
-                    optionSelected === "second" ? "#FF8E77" : "white"
+                  <Box
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} bold fontSize={"md"}>
+                      Jantar fora
+                    </Text>
+                  </Box>
+                </FlipCard>
+                <FlipCard
+                  style={
+                    ((styles.face, styles.back, styles.flipCard),
+                    {
+                      opacity: 0.4,
+                    })
                   }
-                  borderWidth={2}
-                  shadow={2}
-                  width={"100%"}
-                  bg={"white"}
-                  borderRadius={4}
-                  p={8}
-                  alignItems={"center"}
+                  flip={true}
+                  clickable={false}
+                  alignHeight={true}
+                  alignWidth={true}
                 >
-                  <Text color={"#4F4F4F"} fontSize={"md"}>
-                    Clique para selecionar
-                  </Text>
-                </Pressable>
+                  <Pressable
+                    onPress={() => setOptionSelected("second")}
+                    borderColor={
+                      optionSelected === "second" ? "#FF8E77" : "white"
+                    }
+                    borderWidth={2}
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} fontSize={"md"}>
+                      Clique para selecionar
+                    </Text>
+                  </Pressable>
 
-                {/* Back Side */}
-                <Box
-                  shadow={2}
-                  width={"100%"}
-                  bg={"white"}
-                  borderRadius={4}
-                  p={8}
-                  alignItems={"center"}
+                  {/* Back Side */}
+                  <Box
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} bold fontSize={"md"}>
+                      Pedir Ifood
+                    </Text>
+                  </Box>
+                </FlipCard>
+              </>
+            ) : (
+              <>
+                <FlipCard
+                  style={(styles.face, styles.back, styles.flipCard)}
+                  flip={finalResponse === "second"}
+                  clickable={false}
+                  alignHeight={true}
+                  alignWidth={true}
                 >
-                  <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                    Pedir Ifood
-                  </Text>
-                </Box>
-              </FlipCard>
+                  <Pressable
+                    onPress={() => setOptionSelected("second")}
+                    borderColor={
+                      optionSelected === "second" ? "#FF8E77" : "white"
+                    }
+                    borderWidth={2}
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} fontSize={"md"}>
+                      Clique para selecionar
+                    </Text>
+                  </Pressable>
+
+                  {/* Back Side */}
+                  <Box
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} bold fontSize={"md"}>
+                      Pedir Ifood
+                    </Text>
+                  </Box>
+                </FlipCard>
+
+                <FlipCard
+                  style={
+                    ((styles.face, styles.back, styles.flipCard),
+                    {
+                      opacity: 0.4,
+                    })
+                  }
+                  useNativeDriver={true}
+                  flip={true}
+                  clickable={false}
+                  alignHeight={true}
+                  alignWidth={true}
+                >
+                  <Pressable
+                    onPress={() => setOptionSelected("first")}
+                    borderColor={
+                      optionSelected === "first" ? "#FF8E77" : "white"
+                    }
+                    borderWidth={2}
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} fontSize={"md"}>
+                      Clique para selecionar
+                    </Text>
+                  </Pressable>
+
+                  <Box
+                    shadow={2}
+                    width={"100%"}
+                    bg={"white"}
+                    borderRadius={4}
+                    p={8}
+                    alignItems={"center"}
+                  >
+                    <Text color={"#4F4F4F"} bold fontSize={"md"}>
+                      Jantar fora
+                    </Text>
+                  </Box>
+                </FlipCard>
+              </>
             )}
           </>
         )}
