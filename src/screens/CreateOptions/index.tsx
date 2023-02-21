@@ -15,6 +15,7 @@ import { StorageType } from "../../storage";
 
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
+import { Layout } from "../../components/Layout";
 
 type Event = {
   urlImage: string;
@@ -60,107 +61,74 @@ export const CreateOptions = () => {
 
   return (
     <>
-      <Box
-        safeAreaY
-        px={6}
-        alignItems={"flex-start"}
-        width={"100%"}
-        bgColor={{
-          linearGradient: {
-            colors: ["#FF8E77", "#FF1949"],
-            start: [0, 0],
-            end: [0, 1.1],
-          },
-        }}
-      >
-        <IconButton
-          p={0}
-          icon={<ArrowLeft size={24} color={"white"} weight={"bold"} />}
-          onPress={goBack}
-          _pressed={{
-            opacity: 0.5,
-            backgroundColor: "transparent",
-          }}
-        />
-      </Box>
-      <VStack width={"100%"} flex={1} bg={"white"} px={4} py={6}>
-        <Pressable
-          bg={"white"}
-          p={4}
-          shadow={2}
-          borderRadius={32}
-          flexDirection={"row"}
-          alignItems={"center"}
-          onPress={goToCreateEvent}
-          _pressed={{
-            opacity: 0.5,
-          }}
-        >
-          <Box
-            width={12}
-            height={12}
-            borderRadius={999}
+      <Layout onBack={goBack}>
+        <VStack width={"100%"} flex={1} bg={"white"} px={4} py={6}>
+          <Pressable
+            bg={"white"}
+            p={4}
+            shadow={2}
+            borderRadius={32}
+            flexDirection={"row"}
             alignItems={"center"}
-            justifyContent={"center"}
-            bgColor={{
-              linearGradient: {
-                colors: ["#FF8E77", "#FF1949"],
-                start: [0, 0],
-                end: [0, 1.1],
-              },
+            onPress={goToCreateEvent}
+            _pressed={{
+              opacity: 0.5,
             }}
           >
-            <Plus color="#FFF" />
-          </Box>
-          <Text color={"#4F4F4F"} bold marginLeft={4} fontSize={"md"}>
-            Add an event
-          </Text>
-        </Pressable>
-
-        <FlatList
-          style={{
-            marginTop: 4,
-          }}
-          keyExtractor={(item, index) => `draggable-item-${item.title}`}
-          data={data}
-          renderItem={({ item }) => (
-            <Pressable
-              mt={2}
-              bg={"white"}
-              p={4}
-              shadow={2}
-              borderRadius={32}
-              flexDirection={"row"}
+            <Box
+              width={12}
+              height={12}
+              borderRadius={999}
               alignItems={"center"}
-              _pressed={{
-                opacity: 0.5,
+              justifyContent={"center"}
+              bgColor={{
+                linearGradient: {
+                  colors: ["#FF8E77", "#FF1949"],
+                  start: [0, 0],
+                  end: [0, 1.1],
+                },
               }}
-              onLongPress={() => onDelete(item.title)}
             >
-              <Avatar
-                source={{
-                  uri: item.urlImage,
+              <Plus color="#FFF" />
+            </Box>
+            <Text color={"#4F4F4F"} bold marginLeft={4} fontSize={"md"}>
+              Add an event
+            </Text>
+          </Pressable>
+
+          <FlatList
+            style={{
+              marginTop: 4,
+            }}
+            keyExtractor={(item, index) => `draggable-item-${item.title}`}
+            data={data}
+            renderItem={({ item }) => (
+              <Pressable
+                mt={2}
+                bg={"white"}
+                p={4}
+                shadow={2}
+                borderRadius={32}
+                flexDirection={"row"}
+                alignItems={"center"}
+                _pressed={{
+                  opacity: 0.5,
                 }}
-              />
-              <Text color={"#4F4F4F"} bold marginLeft={4} fontSize={"md"}>
-                {item.title}
-              </Text>
-            </Pressable>
-          )}
-        />
-      </VStack>
-      <Box
-        safeAreaY
-        alignItems={"flex-start"}
-        width={"100%"}
-        bgColor={{
-          linearGradient: {
-            colors: ["#FF8E77", "#FF1949"],
-            start: [0, 0],
-            end: [0, 1.1],
-          },
-        }}
-      ></Box>
+                onLongPress={() => onDelete(item.title)}
+              >
+                <Avatar
+                  source={{
+                    uri: item.urlImage,
+                  }}
+                />
+                <Text color={"#4F4F4F"} bold marginLeft={4} fontSize={"md"}>
+                  {item.title}
+                </Text>
+              </Pressable>
+            )}
+          />
+        </VStack>
+      </Layout>
     </>
   );
 };

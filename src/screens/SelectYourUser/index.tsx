@@ -11,6 +11,10 @@ export const SelectYourUser = () => {
     navigate("CreateOptionsStack");
   };
 
+  const goToStart = () => {
+    navigate("Start");
+  };
+
   return (
     <VStack
       width={"100%"}
@@ -49,7 +53,12 @@ export const SelectYourUser = () => {
         >
           Create options
         </Button>
-        <Button bgColor={"white"} borderRadius={32} width={"2xs"}>
+        <Button
+          bgColor={"white"}
+          borderRadius={32}
+          width={"2xs"}
+          onPress={goToStart}
+        >
           <Text bold color={"#FF1949"} fontSize={"md"}>
             Start!
           </Text>
