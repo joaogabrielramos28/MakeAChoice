@@ -1,6 +1,7 @@
-import { Box, IconButton } from "native-base";
+import { Box, IconButton, useSafeArea } from "native-base";
 import { ArrowLeft } from "phosphor-react-native";
 import React from "react";
+import { useWindowDimensions } from "react-native";
 
 type LayoutProps = {
   onBack: () => void;
@@ -8,10 +9,15 @@ type LayoutProps = {
 };
 
 export const Layout = ({ onBack, children }: LayoutProps) => {
+  const { height } = useWindowDimensions();
+
+  const isIphoneSmall = height <= 670;
+
   return (
     <>
       <Box
         safeAreaY
+        py={isIphoneSmall ? 8 : null}
         px={6}
         alignItems={"flex-start"}
         width={"100%"}
@@ -37,6 +43,7 @@ export const Layout = ({ onBack, children }: LayoutProps) => {
 
       <Box
         safeAreaY
+        py={isIphoneSmall ? 8 : null}
         alignItems={"flex-start"}
         width={"100%"}
         bgColor={{

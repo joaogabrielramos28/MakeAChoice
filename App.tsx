@@ -25,7 +25,9 @@ export default function App() {
     Nunito_700Bold,
   });
 
-  if (!fontsLoaded) return <Text>carregando...</Text>;
+  if (!fontsLoaded) {
+    return <Text>Loading...</Text>;
+  }
 
   return (
     <NativeBaseProvider config={config} theme={theme}>

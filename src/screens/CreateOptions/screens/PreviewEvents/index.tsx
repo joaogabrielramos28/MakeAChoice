@@ -324,14 +324,14 @@ export const PreviewEvents = () => {
 
 const styles = StyleSheet.create({
   flipCard: {
-    flex: 0.5,
+    flex: 0.6,
   },
 
   face: {
-    flex: 0.5,
+    flex: 0.6,
   },
 
   back: {
-    flex: 0.5,
+    flex: 0.6,
   },
 });

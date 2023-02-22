@@ -1,6 +1,14 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import { Box, Heading, Image, Pressable, Text, VStack } from "native-base";
+import {
+  Box,
+  Heading,
+  Image,
+  Pressable,
+  ScrollView,
+  Text,
+  VStack,
+} from "native-base";
 import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import FlipCard from "react-native-flip-card";
@@ -54,6 +62,7 @@ export const Start = () => {
     data[steps].optionSelectedIndex = String(selectedIndex);
 
     await AsyncStorage.setItem(StorageType.events, JSON.stringify(data));
+    setEvents(data);
 
     setOptionSelected(null);
   };
@@ -81,146 +90,85 @@ export const Start = () => {
 
   return (
     <Layout onBack={goBack}>
-      <VStack width={"100%"} flex={1} bg={"white"} px={4} py={6}>
-        {steps <= 3 ? (
-          <>
+      <ScrollView flex={1} stickyHeaderIndices={[0]}>
+        {events && steps <= events.length - 1 ? (
+          <Box width={"100%"} bg={"white"} py={6}>
             <Steps currentPosition={steps} />
-
-            {events && events[steps] ? (
-              <>
-                <Image
-                  marginY={4}
-                  width={"100%"}
-                  height={200}
-                  source={{
-                    uri: events[steps]?.urlImage,
-                  }}
-                  alt="Alternate Text"
-                />
-                <Box mt={4} flex={1}>
-                  {events[steps].options.map((event, index) => (
-                    <FlipCard
-                      key={event.title}
-                      style={(styles.face, styles.back, styles.flipCard)}
-                      useNativeDriver={true}
-                      flip={
-                        finalResponse === event.title ||
-                        Number(events[steps].optionSelectedIndex) === index
-                      }
-                      clickable={false}
-                      alignHeight={true}
-                      alignWidth={true}
-                    >
-                      <Pressable
-                        onPress={
-                          !finalResponse && !events[steps].optionSelectedIndex
-                            ? () => setOptionSelected(event.title)
-                            : () => {}
+          </Box>
+        ) : null}
+        <VStack width={"100%"} flex={1} bg={"white"} px={4} py={6}>
+          {events && steps <= events.length - 1 ? (
+            <>
+              {events && events[steps] ? (
+                <>
+                  <Image
+                    marginY={4}
+                    width={"100%"}
+                    height={200}
+                    source={{
+                      uri: events[steps]?.urlImage,
+                    }}
+                    alt="Alternate Text"
+                  />
+                  <Box mt={4} flex={1}>
+                    {events[steps].options.map((event, index) => (
+                      <FlipCard
+                        key={event.title}
+                        style={(styles.face, styles.back, styles.flipCard)}
+                        useNativeDriver={true}
+                        flip={
+                          finalResponse === event.title ||
+                          Number(events[steps].optionSelectedIndex) === index
                         }
-                        opacity={finalResponse ? 0.5 : 1}
-                        borderColor={
-                          optionSelected === event.title ? "#FF8E77" : "white"
-                        }
-                        borderWidth={2}
-                        shadow={2}
-                        width={"100%"}
-                        bg={"white"}
-                        borderRadius={4}
-                        p={8}
-                        alignItems={"center"}
+                        clickable={false}
+                        alignHeight={true}
+                        alignWidth={true}
                       >
-                        <Text color={"#4F4F4F"} fontSize={"md"}>
-                          Clique para selecionar
-                        </Text>
-                      </Pressable>
+                        <Pressable
+                          onPress={
+                            !finalResponse && !events[steps].optionSelectedIndex
+                              ? () => setOptionSelected(event.title)
+                              : () => {}
+                          }
+                          opacity={finalResponse ? 0.5 : 1}
+                          borderColor={
+                            optionSelected === event.title ? "#FF8E77" : "white"
+                          }
+                          borderWidth={2}
+                          shadow={2}
+                          width={"100%"}
+                          bg={"white"}
+                          borderRadius={4}
+                          p={8}
+                          alignItems={"center"}
+                        >
+                          <Text color={"#4F4F4F"} fontSize={"md"}>
+                            Clique para selecionar
+                          </Text>
+                        </Pressable>
 
-                      <Box
-                        shadow={2}
-                        width={"100%"}
-                        bg={"white"}
-                        borderRadius={4}
-                        p={8}
-                        alignItems={"center"}
-                      >
-                        <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                          {event.title}
-                        </Text>
-                      </Box>
-                    </FlipCard>
-                  ))}
-                </Box>
-              </>
-            ) : null}
+                        <Box
+                          shadow={2}
+                          width={"100%"}
+                          bg={"white"}
+                          borderRadius={4}
+                          p={8}
+                          alignItems={"center"}
+                        >
+                          <Text color={"#4F4F4F"} bold fontSize={"md"}>
+                            {event.title}
+                          </Text>
+                        </Box>
+                      </FlipCard>
+                    ))}
+                  </Box>
+                </>
+              ) : null}
 
-            {finalResponse === null &&
-            events &&
-            !events[steps]?.optionSelectedIndex ? (
-              <Pressable onPress={onFinalResponse}>
-                <Box
-                  p={2}
-                  alignItems={"center"}
-                  borderRadius={12}
-                  bgColor={{
-                    linearGradient: {
-                      colors: ["#FF8E77", "#FF1949"],
-                      start: [0, 0],
-                      end: [0, 0.9],
-                    },
-                  }}
-                >
-                  <Text color={"#FFF"} bold fontSize={"md"}>
-                    Reveal
-                  </Text>
-                </Box>
-              </Pressable>
-            ) : (
-              <Pressable onPress={goToNextStep}>
-                <Box
-                  p={2}
-                  alignItems={"center"}
-                  borderRadius={12}
-                  bgColor={{
-                    linearGradient: {
-                      colors: ["#FF8E77", "#FF1949"],
-                      start: [0, 0],
-                      end: [0, 0.9],
-                    },
-                  }}
-                >
-                  <Text color={"#FFF"} bold fontSize={"md"}>
-                    Next Step
-                  </Text>
-                </Box>
-              </Pressable>
-            )}
-          </>
-        ) : (
-          <>
-            {events ? (
-              <>
-                <Heading textAlign={"center"} fontSize="xl">
-                  Resume
-                </Heading>
-                <Carousel
-                  loop
-                  width={width}
-                  height={width / 2}
-                  data={events}
-                  mode={"parallax"}
-                  modeConfig={{
-                    parallaxAdjacentItemScale: 0.85,
-                  }}
-                  scrollAnimationDuration={2000}
-                  onSnapToItem={(index) => console.log("current index:", index)}
-                  renderItem={({ item }) => (
-                    <CarouselCard
-                      image={item.urlImage}
-                      title={item.options[item.optionSelectedIndex].title}
-                    />
-                  )}
-                />
-
-                <Pressable onPress={onReset}>
+              {finalResponse === null &&
+              events &&
+              !events[steps]?.optionSelectedIndex ? (
+                <Pressable onPress={onFinalResponse} mt={2}>
                   <Box
                     p={2}
                     alignItems={"center"}
@@ -234,29 +182,99 @@ export const Start = () => {
                     }}
                   >
                     <Text color={"#FFF"} bold fontSize={"md"}>
-                      Reset
+                      Reveal
                     </Text>
                   </Box>
                 </Pressable>
-              </>
-            ) : null}
-          </>
-        )}
-      </VStack>
+              ) : (
+                <Pressable onPress={goToNextStep} mt={2}>
+                  <Box
+                    p={2}
+                    alignItems={"center"}
+                    borderRadius={12}
+                    bgColor={{
+                      linearGradient: {
+                        colors: ["#FF8E77", "#FF1949"],
+                        start: [0, 0],
+                        end: [0, 0.9],
+                      },
+                    }}
+                  >
+                    <Text color={"#FFF"} bold fontSize={"md"}>
+                      Next Step
+                    </Text>
+                  </Box>
+                </Pressable>
+              )}
+            </>
+          ) : (
+            <>
+              {events ? (
+                <>
+                  <Heading textAlign={"center"} fontSize="xl">
+                    Resume
+                  </Heading>
+                  <Carousel
+                    loop
+                    width={width}
+                    height={width / 2}
+                    data={events}
+                    mode={"parallax"}
+                    modeConfig={{
+                      parallaxAdjacentItemScale: 0.85,
+                    }}
+                    scrollAnimationDuration={2000}
+                    onSnapToItem={(index) =>
+                      console.log("current index:", index)
+                    }
+                    renderItem={({ item }) => (
+                      <CarouselCard
+                        image={item.urlImage}
+                        title={
+                          item.options[Number(item.optionSelectedIndex)].title
+                        }
+                      />
+                    )}
+                  />
+
+                  <Pressable onPress={onReset}>
+                    <Box
+                      p={2}
+                      alignItems={"center"}
+                      borderRadius={12}
+                      bgColor={{
+                        linearGradient: {
+                          colors: ["#FF8E77", "#FF1949"],
+                          start: [0, 0],
+                          end: [0, 0.9],
+                        },
+                      }}
+                    >
+                      <Text color={"#FFF"} bold fontSize={"md"}>
+                        Reset
+                      </Text>
+                    </Box>
+                  </Pressable>
+                </>
+              ) : null}
+            </>
+          )}
+        </VStack>
+      </ScrollView>
     </Layout>
   );
 };
 
 const styles = StyleSheet.create({
   flipCard: {
-    flex: 0.5,
+    flex: 0.6,
   },
 
   face: {
-    flex: 0.5,
+    flex: 0.6,
   },
 
   back: {
-    flex: 0.5,
+    flex: 0.6,
   },
 });

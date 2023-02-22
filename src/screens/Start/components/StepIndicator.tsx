@@ -1,7 +1,9 @@
+import { useFocusEffect } from "@react-navigation/native";
 import { Coffee, Cookie, ForkKnife, ShoppingBag } from "phosphor-react-native";
+import { useCallback, useState } from "react";
 import StepIndicator from "react-native-step-indicator";
+import { getEventsFromAsync } from "../../../storage/Events/getEvents";
 
-const labels = ["BreakFast", "Lunch", "Shopping", "Desert"];
 const customStyles = {
   stepIndicatorSize: 30,
   currentStepIndicatorSize: 30,
@@ -80,9 +82,24 @@ const renderStepIndicator = (params: any) => {
 };
 
 export const Steps = ({ currentPosition }: StepsProps) => {
+  const [labels, setLabels] = useState<string[]>([]);
+
+  const getLabels = async () => {
+    const data = await getEventsFromAsync();
+    const labels = data.map((item) => item.title);
+
+    setLabels(labels);
+  };
+
+  useFocusEffect(
+    useCallback(() => {
+      getLabels();
+    }, [])
+  );
+
   return (
     <StepIndicator
-      stepCount={4}
+      stepCount={labels.length}
       customStyles={customStyles}
       currentPosition={currentPosition}
       renderStepIndicator={renderStepIndicator}
