@@ -3,8 +3,6 @@
     "name": "MakeAChoice",
     "slug": "MakeAChoice",
     "version": "1.0.0",
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }

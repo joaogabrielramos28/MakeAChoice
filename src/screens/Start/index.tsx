@@ -196,46 +196,50 @@ export const Start = () => {
           </>
         ) : (
           <>
-            <Heading textAlign={"center"} fontSize="xl">
-              Resume
-            </Heading>
-            <Carousel
-              loop
-              width={width}
-              height={width / 2}
-              data={events}
-              mode={"parallax"}
-              modeConfig={{
-                parallaxAdjacentItemScale: 0.85,
-              }}
-              scrollAnimationDuration={2000}
-              onSnapToItem={(index) => console.log("current index:", index)}
-              renderItem={({ item }) => (
-                <CarouselCard
-                  image={item.urlImage}
-                  title={item.options[item.optionSelectedIndex].title}
+            {events ? (
+              <>
+                <Heading textAlign={"center"} fontSize="xl">
+                  Resume
+                </Heading>
+                <Carousel
+                  loop
+                  width={width}
+                  height={width / 2}
+                  data={events}
+                  mode={"parallax"}
+                  modeConfig={{
+                    parallaxAdjacentItemScale: 0.85,
+                  }}
+                  scrollAnimationDuration={2000}
+                  onSnapToItem={(index) => console.log("current index:", index)}
+                  renderItem={({ item }) => (
+                    <CarouselCard
+                      image={item.urlImage}
+                      title={item.options[item.optionSelectedIndex].title}
+                    />
+                  )}
                 />
-              )}
-            />
 
-            <Pressable onPress={onReset}>
-              <Box
-                p={2}
-                alignItems={"center"}
-                borderRadius={12}
-                bgColor={{
-                  linearGradient: {
-                    colors: ["#FF8E77", "#FF1949"],
-                    start: [0, 0],
-                    end: [0, 0.9],
-                  },
-                }}
-              >
-                <Text color={"#FFF"} bold fontSize={"md"}>
-                  Reset
-                </Text>
-              </Box>
-            </Pressable>
+                <Pressable onPress={onReset}>
+                  <Box
+                    p={2}
+                    alignItems={"center"}
+                    borderRadius={12}
+                    bgColor={{
+                      linearGradient: {
+                        colors: ["#FF8E77", "#FF1949"],
+                        start: [0, 0],
+                        end: [0, 0.9],
+                      },
+                    }}
+                  >
+                    <Text color={"#FFF"} bold fontSize={"md"}>
+                      Reset
+                    </Text>
+                  </Box>
+                </Pressable>
+              </>
+            ) : null}
           </>
         )}
       </VStack>
