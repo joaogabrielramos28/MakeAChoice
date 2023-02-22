@@ -51,7 +51,18 @@ export const CreateEvent = () => {
   const isValid = !!title && !!firstOption && !!secondOption && !!urlImage;
 
   const goToPreview = () => {
-    navigate("PreviewEvents");
+    navigate("PreviewEvents", {
+      title,
+      options: [
+        {
+          title: firstOption,
+        },
+        {
+          title: secondOption,
+        },
+      ],
+      urlImage,
+    });
   };
   return (
     <>

@@ -1,6 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import { Box, IconButton, Pressable, Text, VStack } from "native-base";
-import { ArrowLeft } from "phosphor-react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { Box, Image, Pressable, Text, VStack } from "native-base";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import FlipCard from "react-native-flip-card";
@@ -9,6 +8,9 @@ import { Layout } from "../../../../components/Layout";
 type options = "first" | "second" | null;
 
 export const PreviewEvents = () => {
+  const { params } = useRoute();
+
+  const { title, options, urlImage } = params as any;
   const [optionSelected, setOptionSelected] = useState<options>(null);
   const [finalResponse, setFinalResponse] = useState<options>(null);
 
@@ -28,6 +30,15 @@ export const PreviewEvents = () => {
           px={4}
           py={6}
         >
+          <Image
+            marginY={4}
+            width={"100%"}
+            height={200}
+            source={{
+              uri: urlImage,
+            }}
+            alt="Alternate Text"
+          />
           {finalResponse === null ? (
             <>
               <FlipCard
@@ -63,7 +74,7 @@ export const PreviewEvents = () => {
                   alignItems={"center"}
                 >
                   <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                    Jantar fora
+                    {options[0].title}
                   </Text>
                 </Box>
               </FlipCard>
@@ -102,7 +113,7 @@ export const PreviewEvents = () => {
                   alignItems={"center"}
                 >
                   <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                    Pedir Ifood
+                    {options[1].title}
                   </Text>
                 </Box>
               </FlipCard>
@@ -146,7 +157,7 @@ export const PreviewEvents = () => {
                       alignItems={"center"}
                     >
                       <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                        Jantar fora
+                        {options[0].title}
                       </Text>
                     </Box>
                   </FlipCard>
@@ -190,7 +201,7 @@ export const PreviewEvents = () => {
                       alignItems={"center"}
                     >
                       <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                        Pedir Ifood
+                        {options[1].title}
                       </Text>
                     </Box>
                   </FlipCard>
@@ -232,7 +243,7 @@ export const PreviewEvents = () => {
                       alignItems={"center"}
                     >
                       <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                        Pedir Ifood
+                        {options[1].title}
                       </Text>
                     </Box>
                   </FlipCard>
@@ -277,7 +288,7 @@ export const PreviewEvents = () => {
                       alignItems={"center"}
                     >
                       <Text color={"#4F4F4F"} bold fontSize={"md"}>
-                        Jantar fora
+                        {options[0].title}
                       </Text>
                     </Box>
                   </FlipCard>
@@ -313,14 +324,14 @@ export const PreviewEvents = () => {
 
 const styles = StyleSheet.create({
   flipCard: {
-    flex: 0.2,
+    flex: 0.5,
   },
 
   face: {
-    flex: 0.2,
+    flex: 0.5,
   },
 
   back: {
-    flex: 0.2,
+    flex: 0.5,
   },
 });

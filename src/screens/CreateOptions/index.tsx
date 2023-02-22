@@ -16,14 +16,7 @@ import { StorageType } from "../../storage";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StyleSheet } from "react-native";
 import { Layout } from "../../components/Layout";
-
-type Event = {
-  urlImage: string;
-  title: string;
-  options: {
-    title: string;
-  }[];
-};
+import { Event } from "../../storage/DTOs/Event";
 
 export const CreateOptions = () => {
   const { goBack, navigate } = useNavigation<any>();
