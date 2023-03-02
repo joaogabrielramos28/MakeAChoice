@@ -3,26 +3,23 @@ import { VStack, Text, Center, Heading, Button } from "native-base";
 
 import CoupleImg from "../../assets/test.svg";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StorageType } from "../../storage";
 import { getEventsFromAsync } from "../../storage/Events/getEvents";
+import { StackRoutesEnum } from "../../routes/stack.routes";
 
 export const SelectYourUser = () => {
-  const { navigate } = useNavigation<any>();
+  const { navigate } = useNavigation();
   const [isDisabled, setIsDisabled] = React.useState<boolean>(true);
 
   const goToCreateOptions = () => {
-    navigate("CreateOptionsStack");
+    navigate(StackRoutesEnum.CREATE_OPTIONS_STACK);
   };
 
   const goToStart = () => {
-    navigate("Start");
+    navigate(StackRoutesEnum.START);
   };
 
   const getEvents = async () => {
     const data = await getEventsFromAsync();
-
-    console.log(data);
 
     return setIsDisabled(data.length === 0);
   };

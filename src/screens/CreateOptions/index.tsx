@@ -1,33 +1,22 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
-import {
-  Avatar,
-  Box,
-  FlatList,
-  IconButton,
-  Pressable,
-  Text,
-  VStack,
-} from "native-base";
-import { ArrowLeft, Plus } from "phosphor-react-native";
+import { Avatar, Box, FlatList, Pressable, Text, VStack } from "native-base";
+import { Plus } from "phosphor-react-native";
 import React, { useCallback, useState } from "react";
-import { StorageType } from "../../storage";
 
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { StyleSheet } from "react-native";
 import { Layout } from "../../components/Layout";
 import { Event } from "../../storage/DTOs/Event";
+import { StackRoutesEnum } from "../../routes/stack.routes";
+import { getEventsFromAsync } from "../../storage/Events/getEvents";
+import { updateEvents } from "../../storage/Events/updateEvents";
 
 export const CreateOptions = () => {
-  const { goBack, navigate } = useNavigation<any>();
+  const { goBack, navigate } = useNavigation();
   const [data, setData] = useState<Event[]>([]);
 
   const getEvents = async () => {
-    const events = await AsyncStorage.getItem(StorageType.events);
+    const events = await getEventsFromAsync();
 
-    const data = JSON.parse(events);
-
-    setData(data);
+    setData(events);
   };
 
   useFocusEffect(
@@ -37,19 +26,17 @@ export const CreateOptions = () => {
   );
 
   const goToCreateEvent = () => {
-    navigate("CreateEvent");
+    navigate(StackRoutesEnum.CREATE_EVENT);
   };
 
   const onDelete = async (title: string) => {
-    const events = await AsyncStorage.getItem(StorageType.events);
+    const events = await getEventsFromAsync();
 
-    const data = JSON.parse(events);
-
-    const newData = data.filter((item: any) => item.title !== title);
+    const newData = events.filter((item: any) => item.title !== title);
 
     setData(newData);
 
-    await AsyncStorage.setItem(StorageType.events, JSON.stringify(newData));
+    await updateEvents(newData);
   };
 
   return (

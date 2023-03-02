@@ -1,6 +1,7 @@
 import { createStackNavigator } from "@react-navigation/stack";
 import React from "react";
 import { CreateOptions } from ".";
+import { StackRoutesEnum } from "../../routes/stack.routes";
 import { CreateEvent } from "./screens/CreateEvent";
 import { PreviewEvents } from "./screens/PreviewEvents";
 
@@ -12,9 +13,9 @@ export const CreateOptionsNavigator = () => {
         headerShown: false,
       }}
     >
-      <Screen name="CreateOptions" component={CreateOptions} />
-      <Screen name="CreateEvent" component={CreateEvent} />
-      <Screen name="PreviewEvents" component={PreviewEvents} />
+      <Screen name={StackRoutesEnum.CREATE_OPTIONS} component={CreateOptions} />
+      <Screen name={StackRoutesEnum.CREATE_EVENT} component={CreateEvent} />
+      <Screen name={StackRoutesEnum.PREVIEW_EVENTS} component={PreviewEvents} />
     </Navigator>
   );
 };

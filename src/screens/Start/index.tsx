@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import {
   Box,
@@ -13,15 +12,18 @@ import React, { useEffect, useState } from "react";
 import { Dimensions, StyleSheet } from "react-native";
 import FlipCard from "react-native-flip-card";
 import { Layout } from "../../components/Layout";
-import { StorageType } from "../../storage";
 import { Event } from "../../storage/DTOs/Event";
 import { Steps } from "./components/StepIndicator";
 
 import { CarouselCard } from "./components/CarouselCard";
 import Carousel from "react-native-reanimated-carousel";
+import { getEventsFromAsync } from "../../storage/Events/getEvents";
+import { getStepFromAsync } from "../../storage/Steps/getStep";
+import { updateEvents } from "../../storage/Events/updateEvents";
+import { updateStep } from "../../storage/Steps/updateStep";
 
 export const Start = () => {
-  const { goBack } = useNavigation<any>();
+  const { goBack } = useNavigation();
 
   const [optionSelected, setOptionSelected] = useState<string>(null);
   const [finalResponse, setFinalResponse] = useState<string>(null);
@@ -29,31 +31,21 @@ export const Start = () => {
   const [events, setEvents] = React.useState<Event[]>();
   const [steps, setSteps] = React.useState(0);
   const getEvents = async () => {
-    const response = await AsyncStorage.getItem(StorageType.events);
-
-    const data = response ? JSON.parse(response) : [];
+    const data = await getEventsFromAsync();
 
     setEvents(data);
   };
 
   const getStep = async () => {
-    const response = await AsyncStorage.getItem(StorageType.step);
+    const data = await getStepFromAsync();
 
-    if (response === null) {
-      await AsyncStorage.setItem(StorageType.step, JSON.stringify(0));
-    }
-
-    const data = JSON.parse(response);
-
-    setSteps(data);
+    setSteps(Number(data));
   };
 
   const onFinalResponse = async () => {
     setFinalResponse(optionSelected);
 
-    const response = await AsyncStorage.getItem(StorageType.events);
-
-    const data: Event[] = response ? JSON.parse(response) : [];
+    const data = await getEventsFromAsync();
 
     const selectedIndex = data[steps].options.findIndex(
       (item) => item.title === optionSelected
@@ -61,21 +53,22 @@ export const Start = () => {
 
     data[steps].optionSelectedIndex = String(selectedIndex);
 
-    await AsyncStorage.setItem(StorageType.events, JSON.stringify(data));
+    await updateEvents(data);
     setEvents(data);
 
     setOptionSelected(null);
   };
 
   const onReset = async () => {
-    await AsyncStorage.setItem(StorageType.step, JSON.stringify(0));
+    await updateStep(0);
     setOptionSelected(null);
     setFinalResponse(null);
     goBack();
   };
 
   const goToNextStep = async () => {
-    await AsyncStorage.setItem(StorageType.step, JSON.stringify(steps + 1));
+    await updateStep(steps + 1);
+
     setOptionSelected(null);
     setFinalResponse(null);
     getStep();
@@ -224,9 +217,6 @@ export const Start = () => {
                       parallaxAdjacentItemScale: 0.85,
                     }}
                     scrollAnimationDuration={2000}
-                    onSnapToItem={(index) =>
-                      console.log("current index:", index)
-                    }
                     renderItem={({ item }) => (
                       <CarouselCard
                         image={item.urlImage}

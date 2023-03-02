@@ -3,6 +3,7 @@ import { Box, Image, Pressable, Text, VStack } from "native-base";
 import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 import FlipCard from "react-native-flip-card";
+import { PreviewEventsParamsType } from "../../../../@types/navigation";
 import { Layout } from "../../../../components/Layout";
 
 type options = "first" | "second" | null;
@@ -10,7 +11,7 @@ type options = "first" | "second" | null;
 export const PreviewEvents = () => {
   const { params } = useRoute();
 
-  const { title, options, urlImage } = params as any;
+  const { options, urlImage } = params as PreviewEventsParamsType;
   const [optionSelected, setOptionSelected] = useState<options>(null);
   const [finalResponse, setFinalResponse] = useState<options>(null);
 

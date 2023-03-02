@@ -1,7 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import {
   Box,
-  IconButton,
   Input,
   KeyboardAvoidingView,
   Pressable,
@@ -9,16 +8,17 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { ArrowLeft } from "phosphor-react-native";
 import React, { useState } from "react";
 
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { StorageType } from "../../../../storage";
 import { Layout } from "../../../../components/Layout";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import { StackRoutesEnum } from "../../../../routes/stack.routes";
+import { getEventsFromAsync } from "../../../../storage/Events/getEvents";
+import { updateEvents } from "../../../../storage/Events/updateEvents";
 
 export const CreateEvent = () => {
-  const { goBack, navigate } = useNavigation<any>();
+  const { goBack, navigate } = useNavigation();
 
   const [title, setTitle] = useState("");
   const [firstOption, setFirstOption] = useState("");
@@ -46,14 +46,11 @@ export const CreateEvent = () => {
       ],
     };
 
-    const response = await AsyncStorage.getItem(StorageType.events);
+    const response = await getEventsFromAsync();
 
     const data = response ? JSON.parse(response) : [];
 
-    await AsyncStorage.setItem(
-      StorageType.events,
-      JSON.stringify([...data, payload])
-    );
+    await updateEvents([...data, payload]);
 
     onReset();
   };
@@ -61,7 +58,7 @@ export const CreateEvent = () => {
   const isValid = !!title && !!firstOption && !!secondOption && !!urlImage;
 
   const goToPreview = () => {
-    navigate("PreviewEvents", {
+    navigate(StackRoutesEnum.PREVIEW_EVENTS, {
       title,
       options: [
         {

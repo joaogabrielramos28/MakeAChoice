@@ -1,19 +1,19 @@
 import React, { useEffect } from "react";
-import BrandSvg from "../../Assets/brand.svg";
-import LogoSvg from "../../Assets/logo.svg";
-import Animated, { runOnJS } from "react-native-reanimated";
+
+import { runOnJS } from "react-native-reanimated";
 
 import { useNavigation } from "@react-navigation/native";
 import { VStack } from "native-base";
 import AnimatedLottieView from "lottie-react-native";
 
 import Animation from "../../assets/animation.json";
+import { StackRoutesEnum } from "../../routes/stack.routes";
 
 export function Splash() {
-  const { navigate } = useNavigation<any>();
+  const { navigate } = useNavigation();
 
   function StartApp() {
-    navigate("SelectYourUser");
+    navigate(StackRoutesEnum.SELECT_YOUR_USER);
   }
 
   useEffect(() => {
