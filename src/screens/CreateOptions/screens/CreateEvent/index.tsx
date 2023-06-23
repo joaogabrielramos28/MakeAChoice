@@ -48,9 +48,7 @@ export const CreateEvent = () => {
 
     const response = await getEventsFromAsync();
 
-    const data = response ? JSON.parse(response) : [];
-
-    await updateEvents([...data, payload]);
+    await updateEvents([...response, payload]);
 
     onReset();
   };
